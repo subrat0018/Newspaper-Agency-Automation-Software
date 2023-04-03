@@ -1,21 +1,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Logo from "../assets/Logo.png";
 const Navbar = () => {
   const navigate = useNavigate();
   return (
     <nav class="bg-white px-2 shadow-xl sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
       <div class="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="https://flowbite.com/" class="flex items-center">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            class="h-6 mr-3 sm:h-9"
-            alt="Flowbite Logo"
-          />
+        <Link to="/" class="flex items-center">
+          <img class="w-8 h-8 mr-2 rounded-lg" src={Logo} alt="logo" />
           <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-            Flowbite
+            NewsFlow
           </span>
-        </a>
+        </Link>
         <div class="flex md:order-2">
           <button
             onClick={() => {
