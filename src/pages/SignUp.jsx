@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 
-const SignUp = () => {
+const SignUp = ({ setEmail }) => {
+  const [emailVal, setEmailValue] = useState("");
+  const [password, setPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
+  const [role, setRole] = useState();
   return (
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -33,6 +37,10 @@ const SignUp = () => {
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required=""
+                  value={emailVal}
+                  onChange={(e) => {
+                    setEmailValue(e.target.value);
+                  }}
                 />
               </div>
               <div>
@@ -49,6 +57,10 @@ const SignUp = () => {
                   placeholder="••••••••"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                 />
               </div>
               <div>
@@ -65,22 +77,33 @@ const SignUp = () => {
                   placeholder="••••••••"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
+                  value={confPassword}
+                  onChange={(e) => {
+                    setConfPassword(e.target.value);
+                  }}
                 />
               </div>
-              <h3 class="font-semibold text-gray-900 dark:text-white">
+
+              <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">
                 Identification
               </h3>
               <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                   <div class="flex items-center pl-3">
                     <input
-                      id="vue-checkbox-list"
-                      type="checkbox"
+                      id="horizontal-list-radio-license"
+                      type="radio"
                       value=""
-                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      name="list-radio"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setRole("Manager");
+                        }
+                      }}
                     />
                     <label
-                      for="vue-checkbox-list"
+                      for="horizontal-list-radio-license"
                       class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
                       Manager
@@ -90,20 +113,27 @@ const SignUp = () => {
                 <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                   <div class="flex items-center pl-3">
                     <input
-                      id="react-checkbox-list"
-                      type="checkbox"
+                      id="horizontal-list-radio-id"
+                      type="radio"
                       value=""
-                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      name="list-radio"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setRole("DeliveryMan");
+                        }
+                      }}
                     />
                     <label
-                      for="react-checkbox-list"
+                      for="horizontal-list-radio-id"
                       class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      Delivery Man
+                      DeliveryMan
                     </label>
                   </div>
                 </li>
               </ul>
+
               <div class="flex items-start">
                 <div class="flex items-center h-5">
                   <input
@@ -130,6 +160,15 @@ const SignUp = () => {
                 </div>
               </div>
               <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (password !== confPassword) {
+                    alert("Password and Confirm Password Did not Match");
+                    setPassword("");
+                    setConfPassword("");
+                  }
+                  setEmail(emailVal);
+                }}
                 type="submit"
                 class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
