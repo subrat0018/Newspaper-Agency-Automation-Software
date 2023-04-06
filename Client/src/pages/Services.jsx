@@ -5,6 +5,7 @@ import AddCustomerModal from "../components/AddCustomerModal";
 import RemoveCustomerModal from "../components/RemoveCustomerModal";
 import AddDeliveryManModal from "../components/AddDeliveryManModal";
 import RemoveDeliveryMan from "../components/RemoveDeliveryMan";
+import AddPublication from "../components/AddPublication";
 const Services = ({ email }) => {
   const operationForManager = [
     "Add Customer",
@@ -33,6 +34,8 @@ const Services = ({ email }) => {
         return <AddDeliveryManModal setModal={setActiveModal} />;
       case "RemoveDeliveryMan":
         return <RemoveDeliveryMan setModal={setActiveModal} />;
+      case "AddPublication":
+        return <AddPublication setModal={setActiveModal} />;
       default:
         break;
     }
