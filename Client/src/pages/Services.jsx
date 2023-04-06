@@ -4,14 +4,15 @@ import Navbar from "../components/Navbar";
 import AddCustomerModal from "../components/AddCustomerModal";
 import RemoveCustomerModal from "../components/RemoveCustomerModal";
 import AddDeliveryManModal from "../components/AddDeliveryManModal";
+import RemoveDeliveryMan from "../components/RemoveDeliveryMan";
 const Services = ({ email }) => {
   const operationForManager = [
     "Add Customer",
     "Remove Customer",
     "Add Delivery Man",
     "Remove Delivery Man",
-    "Add Product",
-    "Remove Product",
+    "Add Publication",
+    "Remove Publication",
     "Generate Delivery List",
     "Withold Subscription",
     "Generate Bills",
@@ -30,6 +31,8 @@ const Services = ({ email }) => {
         return <RemoveCustomerModal setModal={setActiveModal} />;
       case "AddDeliveryMan":
         return <AddDeliveryManModal setModal={setActiveModal} />;
+      case "RemoveDeliveryMan":
+        return <RemoveDeliveryMan setModal={setActiveModal} />;
       default:
         break;
     }
