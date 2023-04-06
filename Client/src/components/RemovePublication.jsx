@@ -1,6 +1,6 @@
 import React from "react";
 
-const RemovePublication = () => {
+const RemovePublication = ({ setModal }) => {
   return (
     <div class="overflow-y-auto overflow-x-hidden fixed top-0 left-50 right-24 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
       <div class="relative p-4 w-full top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 max-w-2xl h-full md:h-auto">
@@ -84,7 +84,7 @@ const RemovePublication = () => {
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                Remove Customer
+                Remove Publication
               </button>
               <button
                 onClick={(e) => {

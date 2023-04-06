@@ -84,7 +84,7 @@ const RemoveDeliveryMan = ({ setModal }) => {
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                Remove Customer
+                Remove DeliveryMan
               </button>
               <button
                 onClick={(e) => {
