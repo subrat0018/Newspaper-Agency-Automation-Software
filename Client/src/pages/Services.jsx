@@ -9,6 +9,7 @@ import AddPublication from "../components/AddPublication";
 import RemovePublication from "../components/RemovePublication";
 import WitholdSubscription from "../components/WitholdSubscription";
 import GenerateBill from "../components/GenerateBill";
+import HandleCustomerRequestModal from "../components/HandleCustomerRequestModal";
 const Services = ({ email }) => {
   const operationForManager = [
     "Add Customer",
@@ -45,6 +46,8 @@ const Services = ({ email }) => {
         return <WitholdSubscription setModal={setActiveModal} />;
       case "GenerateBill":
         return <GenerateBill setModal={setActiveModal} />;
+      case "HandleCustomerRequest":
+        return <HandleCustomerRequestModal setModal={setActiveModal} />;
       default:
         break;
     }
