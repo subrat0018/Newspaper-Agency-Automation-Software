@@ -1,13 +1,13 @@
 import React from "react";
 
-const WitholdSubscription = ({ setModal }) => {
+const GenerateBill = ({ setModal }) => {
   return (
     <div class="overflow-y-auto overflow-x-hidden fixed top-0 left-50 right-24 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
       <div class="relative p-4 w-full top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 max-w-2xl h-full md:h-auto">
         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
           <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Withold Subscription
+              Generate Bill
             </h3>
             <button
               type="button"
@@ -46,78 +46,32 @@ const WitholdSubscription = ({ setModal }) => {
                   name="name"
                   id="name"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Subrat"
-                  required=""
-                />
-              </div>
-              <div>
-                <label
-                  for="publication"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Publication Name
-                </label>
-                <input
-                  type="text"
-                  name="publication"
-                  id="publication"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="The Indian Express"
                   required=""
                 />
               </div>
               <div>
                 <label
-                  for="language"
+                  for="location"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Language
+                  Location
                 </label>
                 <input
                   type="text"
-                  name="language"
-                  id="language"
+                  name="location"
+                  id="location"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="English"
+                  placeholder="Rourkela"
                   required=""
                 />
-              </div>
-              <div>
-                <label
-                  for="time"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Amount of Time(in Months)
-                </label>
-                <input
-                  type="number"
-                  name="time"
-                  id="time"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="2 Months"
-                  required=""
-                />
-              </div>
-              <div class="sm:col-span-2">
-                <label
-                  for="description"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Reason for Withold
-                </label>
-                <textarea
-                  id="description"
-                  rows="4"
-                  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Reason for Withold"
-                ></textarea>
               </div>
             </div>
             <button
               type="submit"
               class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
-              Confirm Withold
+              Generate Bill
             </button>
           </form>
         </div>
@@ -126,4 +80,4 @@ const WitholdSubscription = ({ setModal }) => {
   );
 };
 
-export default WitholdSubscription;
+export default GenerateBill;
