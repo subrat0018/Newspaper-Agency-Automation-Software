@@ -42,6 +42,14 @@ const customerSchema = new Schema({
     required: true,
   },
   subscriptions: [publicationSchema],
+  witholdSubscriptions: {
+    type: [
+      {
+        publication: publicationSchema,
+        time: Number,
+      },
+    ],
+  },
 });
 
 const managerSchema = new Schema({
