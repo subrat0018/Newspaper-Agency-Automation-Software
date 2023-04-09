@@ -144,3 +144,48 @@ router.post("/remove-publication", async (req, res) => {
 });
 
 module.exports = router;
+
+router.post("/withold-subscription", async (req, res) => {
+  cnmae = req.body.customerName;
+  cemail = req.body.customerEmail;
+  pname = req.body.publicationName;
+  plang = req.body.publicationLanguage;
+  dueTime = req.body.time;
+  const customer = await Customer.findOne({ email: cemail });
+  if (!customer) {
+    res.send("Customer Does not exist");
+    return;
+  }
+  const subscriptions = customer.subscriptions;
+  const witholds = customer.witholdSubscriptions;
+  subscriptionFound = null;
+  newSubscriptions = [];
+  subscriptions.forEach((subscription) => {
+    if (subscription.name === pname && subscription.language === plang) {
+      subscriptionFound = subscription;
+    } else {
+      newSubscriptions.push(subscription);
+    }
+  });
+  if (!subscriptionFound) {
+    res.send("Customer is not subscribed to this subscription");
+    return;
+  }
+  const currentDate = new Date();
+  let curr = new Date();
+  dueTime = parseInt(dueTime);
+  const lastDate = new Date(curr.setMonth(curr.getMonth() + dueTime));
+  await Customer.updateOne(customer, {
+    subscriptions: [...newSubscriptions],
+    witholdSubscriptions: [
+      ...witholds,
+      {
+        publication: subscriptionFound,
+        time: dueTime,
+        startDate: currentDate,
+        endDate: lastDate,
+      },
+    ],
+  });
+  res.send("Added to withold successfully");
+});

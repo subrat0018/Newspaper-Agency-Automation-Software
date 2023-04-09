@@ -39,6 +39,8 @@ const customerSchema = new Schema({
     type: [
       {
         publication: publicationSchema,
+        startDate: Date,
+        endDate: Date,
         time: Number,
       },
     ],
