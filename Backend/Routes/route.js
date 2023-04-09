@@ -32,7 +32,7 @@ router.post("/add-customer", async (req, res) => {
   clocation = req.body.location;
   cpname = req.body.publication;
   cplang = req.body.language;
-  caddress = req.body.address;
+  chouseNo = req.body.houseNo;
   const publication = await Publication.findOne({
     name: cpname,
     language: cplang,
@@ -47,7 +47,7 @@ router.post("/add-customer", async (req, res) => {
     location: clocation,
     amountDue: 0,
     subscriptions: publication,
-    address: caddress,
+    houseNo: chouseNo,
   };
   const result = await Customer.findOne({ email: cemail });
   if (result) {
@@ -72,6 +72,41 @@ router.post("/remove-customer", async (req, res) => {
   }
   await Customer.deleteOne({ name: cname, location: clocation });
   res.send("Customer removed successfully");
+});
+
+router.post("/add-delivery-man", async (req, res) => {
+  dname = req.body.name;
+  demail = req.body.email;
+  dlocation = req.body.location;
+  deliveryManObj = {
+    name: dname,
+    email: demail,
+    location: dlocation,
+    earningThisMonth: 0,
+  };
+  const result = await DeliveryMan.findOne({ email: demail });
+  if (result) {
+    res.send("This email is already exists");
+    return;
+  }
+  deliveryMan = new DeliveryMan(deliveryManObj);
+  deliveryMan.save();
+  res.send("Delivery Man added successfully");
+});
+
+router.post("/remove-delivery-man", async (req, res) => {
+  dname = req.body.name;
+  dlocation = req.body.location;
+  const isPresent = await DeliveryMan.findOne({
+    name: dname,
+    location: dlocation,
+  });
+  if (!isPresent) {
+    res.send("No such DeliveryMan Exist");
+    return;
+  }
+  await DeliveryMan.deleteOne({ name: dname, location: dlocation });
+  res.send("DeliveryMan removed successfully");
 });
 
 router.post("/add-publication", async (req, res) => {

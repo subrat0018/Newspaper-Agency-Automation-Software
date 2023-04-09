@@ -33,7 +33,7 @@ const customerSchema = new Schema({
     type: String,
     required: true,
   },
-  address: String,
+  houseNo: Number,
   subscriptions: [publicationSchema],
   witholdSubscriptions: {
     type: [
