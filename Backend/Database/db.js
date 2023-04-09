@@ -1,23 +1,15 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://127.0.0.1:27017/NewFlowDB");
-
 const Schema = mongoose.Schema;
 
 const publicationSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
-  english: {
-    type: Boolean,
-  },
-  hindi: {
-    type: Boolean,
-  },
-  odia: {
-    type: Boolean,
+  language: {
+    type: String,
+    required: true,
   },
   price: {
     type: Number,
@@ -81,3 +73,14 @@ const deliveryManSchema = new Schema({
     type: Number,
   },
 });
+
+const Customer = new mongoose.model("Customer", customerSchema);
+const Manager = new mongoose.model("Manager", managerSchema);
+const Publication = new mongoose.model("Publication", publicationSchema);
+const DeliveryMan = new mongoose.model("DeliveryMan", deliveryManSchema);
+module.exports = {
+  Customer,
+  Manager,
+  Publication,
+  DeliveryMan,
+};
