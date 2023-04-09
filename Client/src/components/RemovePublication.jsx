@@ -1,6 +1,18 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 const RemovePublication = ({ setModal }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    language: "english",
+  });
+  const [publications, setPublications] = useState([]);
+  useEffect(() => {
+    fetch = async () => {
+      const res = await axios.get("http://localhost:5000/get-publication");
+      setPublications([...res.data]);
+    };
+    fetch();
+  }, []);
   return (
     <div class="overflow-y-auto overflow-x-hidden fixed top-0 left-50 right-24 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
       <div class="relative p-4 w-full top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 max-w-2xl h-full md:h-auto">
@@ -39,16 +51,24 @@ const RemovePublication = ({ setModal }) => {
                   for="name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Name
+                  Publication Name
                 </label>
-                <input
-                  type="text"
-                  name="name"
+                <select
+                  onChange={(e) => {
+                    setFormData({ ...formData, name: e.target.value });
+                  }}
                   id="name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="The Indian Express"
-                  required=""
-                />
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                  <option selected="">Select category</option>
+                  {publications?.map((item, index) => {
+                    return (
+                      <option value={item} key={index}>
+                        {item}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div>
                 <label
@@ -58,10 +78,12 @@ const RemovePublication = ({ setModal }) => {
                   Language
                 </label>
                 <select
+                  onChange={(e) => {
+                    setFormData({ ...formData, language: e.target.value });
+                  }}
                   id="language"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option selected="">Select category</option>
                   <option value="english">English</option>
                   <option value="hindi">Hindi</option>
                   <option value="odia">Odia</option>
@@ -70,6 +92,16 @@ const RemovePublication = ({ setModal }) => {
             </div>
             <div class="flex items-center space-x-4">
               <button
+                onClick={async (e) => {
+                  e.preventDefault();
+                  const res = await axios.post(
+                    "http://localhost:5000/remove-publication",
+                    formData
+                  );
+                  console.log(res);
+                  setFormData({ name: "", language: "english" });
+                  setModal("");
+                }}
                 type="button"
                 class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
               >
