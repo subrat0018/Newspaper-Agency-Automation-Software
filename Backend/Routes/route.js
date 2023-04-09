@@ -32,6 +32,7 @@ router.post("/add-customer", async (req, res) => {
   clocation = req.body.location;
   cpname = req.body.publication;
   cplang = req.body.language;
+  caddress = req.body.address;
   const publication = await Publication.findOne({
     name: cpname,
     language: cplang,
@@ -46,6 +47,7 @@ router.post("/add-customer", async (req, res) => {
     location: clocation,
     amountDue: 0,
     subscriptions: publication,
+    address: caddress,
   };
   const result = await Customer.findOne({ email: cemail });
   if (result) {
@@ -55,6 +57,21 @@ router.post("/add-customer", async (req, res) => {
   customer = new Customer(customerObj);
   customer.save();
   res.send("Customer added successfully");
+});
+
+router.post("/remove-customer", async (req, res) => {
+  cname = req.body.name;
+  clocation = req.body.location;
+  const isPresent = await Customer.findOne({
+    name: cname,
+    location: clocation,
+  });
+  if (!isPresent) {
+    res.send("No such Customer Exist");
+    return;
+  }
+  await Customer.deleteOne({ name: cname, location: clocation });
+  res.send("Customer removed successfully");
 });
 
 router.post("/add-publication", async (req, res) => {

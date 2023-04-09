@@ -6,6 +6,7 @@ const RemovePublication = ({ setModal }) => {
     language: "english",
   });
   const [publications, setPublications] = useState([]);
+  const [languages, setLanguages] = useState([]);
   useEffect(() => {
     fetch = async () => {
       const res = await axios.get("http://localhost:5000/get-publication");
@@ -19,7 +20,7 @@ const RemovePublication = ({ setModal }) => {
         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
           <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Remove Customer
+              Remove Publication
             </h3>
             <button
               type="button"
@@ -54,13 +55,21 @@ const RemovePublication = ({ setModal }) => {
                   Publication Name
                 </label>
                 <select
-                  onChange={(e) => {
-                    setFormData({ ...formData, name: e.target.value });
+                  onChange={async (e) => {
+                    if (!e.target.value) return;
+                    setFormData({ ...formData, publication: e.target.value });
+                    const langs = await axios.post(
+                      "http://localhost:5000/get-lang",
+                      {
+                        publication: e.target.value,
+                      }
+                    );
+                    setLanguages([...langs.data]);
                   }}
                   id="name"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option selected="">Select publication</option>
+                  <option value="">Select publication</option>
                   {publications?.map((item, index) => {
                     return (
                       <option value={item} key={index}>
@@ -84,9 +93,14 @@ const RemovePublication = ({ setModal }) => {
                   id="language"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option value="english">English</option>
-                  <option value="hindi">Hindi</option>
-                  <option value="odia">Odia</option>
+                  <option selected="">Select Language</option>
+                  {languages.map((item, index) => {
+                    return (
+                      <option value={item} key={index}>
+                        {item}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             </div>

@@ -1,6 +1,8 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
 const RemoveCustomerModal = ({ setModal }) => {
+  const [formData, setFormData] = useState({ name: "", location: "" });
   return (
     <div class="overflow-y-auto overflow-x-hidden fixed top-0 left-50 right-24 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
       <div class="relative p-4 w-full top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 max-w-2xl h-full md:h-auto">
@@ -42,12 +44,15 @@ const RemoveCustomerModal = ({ setModal }) => {
                   Name
                 </label>
                 <input
+                  onChange={(e) => {
+                    setFormData({ ...formData, name: e.target.value });
+                  }}
                   type="text"
                   name="name"
                   id="name"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Subrat"
-                  required=""
+                  required
                 />
               </div>
               <div>
@@ -58,6 +63,9 @@ const RemoveCustomerModal = ({ setModal }) => {
                   Location
                 </label>
                 <input
+                  onChange={(e) => {
+                    setFormData({ ...formData, location: e.target.value });
+                  }}
                   type="text"
                   name="location"
                   id="location"
@@ -69,6 +77,16 @@ const RemoveCustomerModal = ({ setModal }) => {
             </div>
             <div class="flex items-center space-x-4">
               <button
+                onClick={async (e) => {
+                  e.preventDefault();
+                  const res = await axios.post(
+                    "http://localhost:5000/remove-customer",
+                    formData
+                  );
+
+                  setFormData({ name: "", location: "" });
+                  setModal("");
+                }}
                 type="button"
                 class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
               >

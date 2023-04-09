@@ -33,6 +33,7 @@ const customerSchema = new Schema({
     type: String,
     required: true,
   },
+  address: String,
   subscriptions: [publicationSchema],
   witholdSubscriptions: {
     type: [
