@@ -16,38 +16,16 @@ router.get("/get-publication", async (req, res) => {
   res.send(Array.from(result));
 });
 
-router.post("/add-publication", async (req, res) => {
-  name = req.body.name;
-  language = req.body.language;
-  price = req.body.price;
-  name = name.toLowerCase();
-  language = language.toLowerCase();
-  const result = await Publication.findOne({ name: name, language: language });
-  if (result) {
-    res.send("Publication already exist");
-    return;
-  }
-  const newPublication = new Publication({
-    name: name,
-    language: language,
-    price: price,
+router.post("/get-lang", async (req, res) => {
+  const pub = req.body.publication;
+  const publications = await Publication.find({ name: pub });
+  let result = [];
+  publications.forEach((publ) => {
+    result.push(publ.language);
   });
-  newPublication.save();
-  res.send("Successfully saved the publication");
+  res.send(result);
 });
-router.post("/remove-publication", async (req, res) => {
-  name = req.body.name;
-  language = req.body.language;
-  name = name.toLowerCase();
-  language = language.toLowerCase();
-  const result = await Publication.findOne({ name: name, language: language });
-  if (!result) {
-    res.send("No such publication exists!");
-    return;
-  }
-  await Publication.deleteOne({ name: name, language: language });
-  res.send("Publication deleted successfully");
-});
+
 router.post("/add-customer", async (req, res) => {
   cname = req.body.name;
   cemail = req.body.email;
@@ -70,7 +48,6 @@ router.post("/add-customer", async (req, res) => {
     subscriptions: publication,
   };
   const result = await Customer.findOne({ email: cemail });
-  console.log(result);
   if (result) {
     res.send("Customer email is already exists");
     return;
@@ -79,4 +56,39 @@ router.post("/add-customer", async (req, res) => {
   customer.save();
   res.send("Customer added successfully");
 });
+
+router.post("/add-publication", async (req, res) => {
+  name = req.body.name;
+  language = req.body.language;
+  price = req.body.price;
+  name = name.toLowerCase();
+  language = language.toLowerCase();
+  const result = await Publication.findOne({ name: name, language: language });
+  if (result) {
+    res.send("Publication already exist");
+    return;
+  }
+  const newPublication = new Publication({
+    name: name,
+    language: language,
+    price: price,
+  });
+  newPublication.save();
+  res.send("Successfully saved the publication");
+});
+
+router.post("/remove-publication", async (req, res) => {
+  name = req.body.name;
+  language = req.body.language;
+  name = name.toLowerCase();
+  language = language.toLowerCase();
+  const result = await Publication.findOne({ name: name, language: language });
+  if (!result) {
+    res.send("No such publication exists!");
+    return;
+  }
+  await Publication.deleteOne({ name: name, language: language });
+  res.send("Publication deleted successfully");
+});
+
 module.exports = router;

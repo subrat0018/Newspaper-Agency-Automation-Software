@@ -6,10 +6,11 @@ const AddCustomerModal = ({ setModal }) => {
     name: "",
     email: "",
     publication: "",
-    language: "english",
+    language: "",
     location: "",
   });
   const [publications, setPublications] = useState([]);
+  const [languages, setLanguages] = useState([]);
   useEffect(() => {
     fetch = async () => {
       const res = await axios.get("http://localhost:5000/get-publication");
@@ -97,13 +98,21 @@ const AddCustomerModal = ({ setModal }) => {
                   Publication Name
                 </label>
                 <select
-                  onChange={(e) => {
+                  onChange={async (e) => {
+                    if (!e.target.value) return;
                     setFormData({ ...formData, publication: e.target.value });
+                    const langs = await axios.post(
+                      "http://localhost:5000/get-lang",
+                      {
+                        publication: e.target.value,
+                      }
+                    );
+                    setLanguages([...langs.data]);
                   }}
                   id="name"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option selected="">Select publication</option>
+                  <option value="">Select publication</option>
                   {publications?.map((item, index) => {
                     return (
                       <option value={item} key={index}>
@@ -127,9 +136,14 @@ const AddCustomerModal = ({ setModal }) => {
                   id="language"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option value="english">English</option>
-                  <option value="hindi">Hindi</option>
-                  <option value="odia">Odia</option>
+                  <option selected="">Select Language</option>
+                  {languages.map((item, index) => {
+                    return (
+                      <option value={item} key={index}>
+                        {item}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div>
