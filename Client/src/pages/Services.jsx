@@ -10,6 +10,8 @@ import RemovePublication from "../components/RemovePublication";
 import WitholdSubscription from "../components/WitholdSubscription";
 import GenerateBill from "../components/GenerateBill";
 import HandleCustomerRequestModal from "../components/HandleCustomerRequestModal";
+import WhoRecieveWhatModal from "../components/WhoRecieveWhatModal";
+
 const Services = ({ email }) => {
   const operationForManager = [
     "Add Customer",
@@ -18,7 +20,7 @@ const Services = ({ email }) => {
     "Remove Delivery Man",
     "Add Publication",
     "Remove Publication",
-    "Generate Delivery List",
+    "Who Recieve What",
     "Withold Subscription",
     "Generate Bill",
     "Generate Salary",
@@ -48,6 +50,8 @@ const Services = ({ email }) => {
         return <GenerateBill setModal={setActiveModal} />;
       case "HandleCustomerRequest":
         return <HandleCustomerRequestModal setModal={setActiveModal} />;
+      case "WhoRecieveWhat":
+        return <WhoRecieveWhatModal setModal={setActiveModal} />;
       default:
         break;
     }

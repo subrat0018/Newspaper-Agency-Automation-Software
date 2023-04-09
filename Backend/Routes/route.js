@@ -174,7 +174,7 @@ router.post("/withold-subscription", async (req, res) => {
   const currentDate = new Date();
   let curr = new Date();
   dueTime = parseInt(dueTime);
-  const lastDate = new Date(curr.setMonth(curr.getMonth() + dueTime));
+  const lastDate = new Date(curr.setDate(curr.getDate() + dueTime));
   await Customer.updateOne(customer, {
     subscriptions: [...newSubscriptions],
     witholdSubscriptions: [
@@ -188,4 +188,63 @@ router.post("/withold-subscription", async (req, res) => {
     ],
   });
   res.send("Added to withold successfully");
+});
+
+router.post("/handle-request", async (req, res) => {
+  const cname = req.body.customerName;
+  const cloc = req.body.location;
+  const rtype = req.body.rtype;
+  const pname = req.body.publicationName;
+  const plang = req.body.publicationLanguage;
+  const customer = await Customer.findOne({ name: cname, location: cloc });
+  if (!customer) {
+    res.send("Customer does not exist");
+    return;
+  }
+  if (rtype === "unsuscribe") {
+    newSubscriptions = [];
+    subscriptionFound = false;
+    subscriptions = customer.subscriptions;
+    subscriptions.forEach((subscription) => {
+      if (subscription.name === pname && subscription.language === plang) {
+        subscriptionFound = true;
+      } else {
+        newSubscriptions.push(subscription);
+      }
+    });
+    if (subscriptionFound) {
+      await Customer.updateOne(customer, {
+        subscriptions: [...newSubscriptions],
+      });
+      res.send("Request successfully processed");
+    } else {
+      res.send("Customer is not suscribed to this publication");
+    }
+  } else if (rtype === "suscribe") {
+    newSubscriptions = [];
+    subscriptionFound = false;
+    subscriptions = customer.subscriptions;
+    subscriptions.forEach((subscription) => {
+      if (subscription.name === pname && subscription.language === plang) {
+        subscriptionFound = true;
+      } else {
+        newSubscriptions.push(subscription);
+      }
+    });
+    if (subscriptionFound) {
+      res.send("Customer is already suscribed to this publication");
+    } else {
+      const publication = await Publication.findOne({
+        name: pname,
+        language: plang,
+      });
+      newSubscriptions.push(publication);
+      await Customer.updateOne(customer, {
+        subscriptions: [...newSubscriptions],
+      });
+    }
+    res.send("Request processed successfully");
+  } else {
+    res.send("Invalid request");
+  }
 });
