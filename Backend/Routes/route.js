@@ -48,4 +48,35 @@ router.post("/remove-publication", async (req, res) => {
   await Publication.deleteOne({ name: name, language: language });
   res.send("Publication deleted successfully");
 });
+router.post("/add-customer", async (req, res) => {
+  cname = req.body.name;
+  cemail = req.body.email;
+  clocation = req.body.location;
+  cpname = req.body.publication;
+  cplang = req.body.language;
+  const publication = await Publication.findOne({
+    name: cpname,
+    language: cplang,
+  });
+  if (!publication) {
+    res.send("No Such publication exists");
+    return;
+  }
+  customerObj = {
+    name: cname,
+    email: cemail,
+    location: clocation,
+    amountDue: 0,
+    subscriptions: publication,
+  };
+  const result = await Customer.findOne({ email: cemail });
+  console.log(result);
+  if (result) {
+    res.send("Customer email is already exists");
+    return;
+  }
+  customer = new Customer(customerObj);
+  customer.save();
+  res.send("Customer added successfully");
+});
 module.exports = router;
