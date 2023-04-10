@@ -95,6 +95,7 @@ router.post("/add-customer", async (req, res) => {
     amountDue: 0,
     subscriptions: publication,
     houseNo: chouseNo,
+    lastPaid: new Date(),
   };
   const result = await Customer.findOne({ email: cemail });
   if (result) {
@@ -274,4 +275,19 @@ router.post("/handle-request", async (req, res) => {
   } else {
     res.send("Invalid request");
   }
+});
+
+router.post("/generate-bill", async (req, res) => {
+  const { name, email, paid } = req.body;
+  console.log(email);
+  const customer = await Customer.findOne({ email: email });
+  if (!customer) {
+    res.send("err");
+    return;
+  }
+  await Customer.updateOne(customer, {
+    amountDue: customer.amountDue - paid,
+    lastPaid: new Date(),
+  });
+  res.send(customer);
 });

@@ -8,7 +8,7 @@ import RemoveDeliveryMan from "../components/RemoveDeliveryMan";
 import AddPublication from "../components/AddPublication";
 import RemovePublication from "../components/RemovePublication";
 import WitholdSubscription from "../components/WitholdSubscription";
-import GenerateBill from "../components/GenerateBill";
+import GenerateReciept from "../components/GenerateReciept";
 import HandleCustomerRequestModal from "../components/HandleCustomerRequestModal";
 import WhoRecieveWhatModal from "../components/WhoRecieveWhatModal";
 import { useNavigate } from "react-router-dom";
@@ -35,9 +35,11 @@ const Services = () => {
     "Remove Publication",
     "Who Recieve What",
     "Withold Subscription",
-    "Generate Bill",
+    "Generate Reciept",
     "Generate Salary",
     "Handle Customer Request",
+    "Check Dues",
+    "Generate Bills",
   ];
   const operationForDeliveryMan = ["Get Delivery List", "Add Customer Request"];
   let activeOperations;
@@ -61,8 +63,8 @@ const Services = () => {
         return <RemovePublication setModal={setActiveModal} />;
       case "WitholdSubscription":
         return <WitholdSubscription setModal={setActiveModal} />;
-      case "GenerateBill":
-        return <GenerateBill setModal={setActiveModal} />;
+      case "GenerateReciept":
+        return <GenerateReciept setModal={setActiveModal} />;
       case "HandleCustomerRequest":
         return <HandleCustomerRequestModal setModal={setActiveModal} />;
       case "WhoRecieveWhat":

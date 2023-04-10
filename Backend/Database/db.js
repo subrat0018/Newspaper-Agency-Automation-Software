@@ -34,6 +34,7 @@ const customerSchema = new Schema({
     required: true,
   },
   houseNo: Number,
+  lastPaid: Date,
   subscriptions: [publicationSchema],
   witholdSubscriptions: {
     type: [
