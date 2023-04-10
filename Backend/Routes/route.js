@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const sendEmail = require("../Controller/sendEmail");
 const {
   Customer,
   Manager,
@@ -290,4 +291,20 @@ router.post("/generate-bill", async (req, res) => {
     lastPaid: new Date(),
   });
   res.send(customer);
+});
+router.get("/send-mail", async (req, res) => {
+  const allCustomer = await Customer.find({});
+  const reqCustomer = [];
+  allCustomer.forEach((customer) => {
+    if (
+      Math.ceil(
+        Math.abs(new Date(customer.lastPaid) - new Date()) /
+          (1000 * 60 * 60 * 24)
+      ) > 59
+    ) {
+      reqCustomer.push(customer);
+    }
+  });
+  sendEmail.sendEmail(reqCustomer);
+  res.send("Mails sent successfully");
 });
