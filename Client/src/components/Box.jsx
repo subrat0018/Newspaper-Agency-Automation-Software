@@ -5,7 +5,6 @@ const Box = ({ service, setModal }) => {
     <div className="w-1/4 mb-8">
       <button
         onClick={() => {
-          console.log(service.split(" ").join(""));
           setModal(service.split(" ").join(""));
         }}
         data-modal-toggle="defaultModal"

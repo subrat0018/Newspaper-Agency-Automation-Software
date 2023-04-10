@@ -21,6 +21,11 @@ router.get("/get-customer", async (req, res) => {
   res.send(customers);
 });
 
+router.get("/get-delivery-man", async (req, res) => {
+  const deliveryMan = await DeliveryMan.find({});
+  res.send(deliveryMan);
+});
+
 router.get("/read-cookie", async (req, res) => {
   const cks = req.cookies;
   const token = cks.jwt;

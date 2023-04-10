@@ -13,6 +13,7 @@ import HandleCustomerRequestModal from "../components/HandleCustomerRequestModal
 import WhoRecieveWhatModal from "../components/WhoRecieveWhatModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import GenerateSalaryModal from "../components/GenerateSalary";
 const Services = () => {
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
@@ -66,6 +67,8 @@ const Services = () => {
         return <HandleCustomerRequestModal setModal={setActiveModal} />;
       case "WhoRecieveWhat":
         return <WhoRecieveWhatModal setModal={setActiveModal} />;
+      case "GenerateSalary":
+        return <GenerateSalaryModal setModal={setActiveModal} />;
       default:
         break;
     }
