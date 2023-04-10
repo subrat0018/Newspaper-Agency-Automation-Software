@@ -15,6 +15,8 @@ router.get("/get-publication", async (req, res) => {
   });
   res.send(Array.from(result));
 });
+router.post("/signup", authController.signup);
+router.post("/login", authController.login);
 
 router.get("/get-customer", async (req, res) => {
   const customers = await Customer.find({});
@@ -78,8 +80,6 @@ router.post("/remove-customer", async (req, res) => {
   await Customer.deleteOne({ name: cname, location: clocation });
   res.send("Customer removed successfully");
 });
-
-router.post("/signup", authController.signup);
 
 router.post("/remove-delivery-man", async (req, res) => {
   dname = req.body.name;

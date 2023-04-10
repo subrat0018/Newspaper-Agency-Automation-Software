@@ -24,6 +24,19 @@ const Navbar = ({ currPage, setCurrPage }) => {
       </li>
     );
   };
+  const Button = ({ click, name }) => {
+    return (
+      <button
+        onClick={() => {
+          navigate("/" + click);
+        }}
+        type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        {name}
+      </button>
+    );
+  };
   return (
     <nav class="bg-white px-2 shadow-xl sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
       <div class="container flex flex-wrap items-center justify-between mx-auto">
@@ -33,16 +46,12 @@ const Navbar = ({ currPage, setCurrPage }) => {
             NewsFlow
           </span>
         </Link>
+
         <div class="flex md:order-2">
-          <button
-            onClick={() => {
-              navigate("/sign-up");
-            }}
-            type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Register
-          </button>
+          <div className="flex space-x-5">
+            <Button click="sign-up" name="Register" />
+            <Button click="log-in" name="Login" />
+          </div>
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"

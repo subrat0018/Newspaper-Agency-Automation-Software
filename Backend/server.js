@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const router = require("./Routes/route");
 const app = express();
+const cookieParser = require("cookie-parser");
+require("dotenv").config({ path: __dirname + "/.env" });
 
 mongoose.connect("mongodb://127.0.0.1:27017/NewsFlowDB");
 const corsConfig = {
@@ -13,6 +15,7 @@ const corsConfig = {
 app.use(cors(corsConfig));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use("/", router);
 app.listen(5000, () => {
   console.log("App is listening at the port no: 5000");

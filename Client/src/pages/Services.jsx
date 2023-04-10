@@ -27,6 +27,7 @@ const Services = ({ email }) => {
     "Handle Customer Request",
   ];
   const operationForDeliveryMan = ["Get Delivery List", "Add Customer Request"];
+  const role = document.cookie;
   const activeOperations = operationForManager;
   const [currPage, setCurrPage] = useState("Services");
   const [activeModal, setActiveModal] = useState("");

@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.png";
+import { useState } from "react";
+import axios from "axios";
 const Login = ({ setEmail }) => {
-  const [emailVal, setEmailValue] = useState("");
-  const [password, setPassword] = useState("");
+  axios.defaults.withCredentials = true;
+  const [formData, setFormData] = useState({ email: "", password: "" });
   return (
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -34,9 +36,9 @@ const Login = ({ setEmail }) => {
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required=""
-                  value={emailVal}
+                  value={formData.email}
                   onChange={(e) => {
-                    setEmailValue(e.target.value);
+                    setFormData({ ...formData, email: e.target.value });
                   }}
                 />
               </div>
@@ -54,9 +56,9 @@ const Login = ({ setEmail }) => {
                   placeholder="••••••••"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
-                  value={password}
+                  value={formData.password}
                   onChange={(e) => {
-                    setPassword(e.target.value);
+                    setFormData({ ...formData, password: e.target.value });
                   }}
                 />
               </div>
@@ -88,6 +90,16 @@ const Login = ({ setEmail }) => {
                 </a>
               </div>
               <button
+                onClick={async (e) => {
+                  e.preventDefault();
+                  console.log(formData);
+                  const res = await axios.post(
+                    "http://localhost:5000/login",
+                    formData
+                  );
+                  console.log(res);
+                  setFormData({ email: "", password: "" });
+                }}
                 type="submit"
                 class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
