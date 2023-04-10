@@ -168,6 +168,7 @@ const HandleCustomerRequestModal = ({ setModal }) => {
                       </option>
                     );
                   })}
+                  required
                 </select>
               </div>
             </div>

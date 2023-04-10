@@ -57,6 +57,7 @@ const managerSchema = new Schema({
     required: true,
     unique: true,
   },
+  password: String,
 });
 const deliveryManSchema = new Schema({
   name: {
@@ -75,6 +76,7 @@ const deliveryManSchema = new Schema({
   earningThisMonth: {
     type: Number,
   },
+  password: String,
 });
 
 const Customer = new mongoose.model("Customer", customerSchema);

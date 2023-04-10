@@ -6,7 +6,7 @@ const {
   Publication,
   DeliveryMan,
 } = require("../Database/db");
-
+const authController = require("../Controller/authController");
 router.get("/get-publication", async (req, res) => {
   const publications = await Publication.find({});
   let result = new Set();
@@ -14,6 +14,11 @@ router.get("/get-publication", async (req, res) => {
     result.add(publication.name);
   });
   res.send(Array.from(result));
+});
+
+router.get("/get-customer", async (req, res) => {
+  const customers = await Customer.find({});
+  res.send(customers);
 });
 
 router.post("/get-lang", async (req, res) => {
@@ -74,25 +79,7 @@ router.post("/remove-customer", async (req, res) => {
   res.send("Customer removed successfully");
 });
 
-router.post("/add-delivery-man", async (req, res) => {
-  dname = req.body.name;
-  demail = req.body.email;
-  dlocation = req.body.location;
-  deliveryManObj = {
-    name: dname,
-    email: demail,
-    location: dlocation,
-    earningThisMonth: 0,
-  };
-  const result = await DeliveryMan.findOne({ email: demail });
-  if (result) {
-    res.send("This email is already exists");
-    return;
-  }
-  deliveryMan = new DeliveryMan(deliveryManObj);
-  deliveryMan.save();
-  res.send("Delivery Man added successfully");
-});
+router.post("/signup", authController.signup);
 
 router.post("/remove-delivery-man", async (req, res) => {
   dname = req.body.name;

@@ -102,7 +102,7 @@ const AddDeliveryManModal = ({ setModal }) => {
               onClick={async (e) => {
                 e.preventDefault();
                 const res = await axios.post(
-                  "http://localhost:5000/add-delivery-man",
+                  "http://localhost:5000/signup",
                   formData
                 );
                 console.log(res);

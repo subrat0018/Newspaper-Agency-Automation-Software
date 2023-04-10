@@ -5,13 +5,17 @@ const AddDeliveryManModal = ({ setModal }) => {
   const [customers, setCustomers] = useState([]);
   useEffect(() => {
     const fetch = async () => {
-      const allCustomers = await axios.get("/get-customers");
-      setCustomers(allCustomers);
+      const allCustomers = await axios.get(
+        "http://localhost:5000/get-customer"
+      );
+
+      setCustomers(allCustomers.data);
     };
-  });
+    fetch();
+  }, []);
   return (
     <div class="overflow-y-auto overflow-x-hidden fixed top-0 left-50 right-24 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
-      <div class="relative p-4 w-full top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 max-w-2xl h-full md:h-auto">
+      <div class="relative p-4 w-full top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 max-w-6xl h-full md:h-auto">
         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
           <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
@@ -52,50 +56,40 @@ const AddDeliveryManModal = ({ setModal }) => {
                     Location
                   </th>
                   <th scope="col" class="px-6 py-3">
-                    Publication Name
+                    Email
                   </th>
                   <th scope="col" class="px-6 py-3">
-                    Language
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    <span class="sr-only">Edit</span>
+                    Publication
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Apple MacBook Pro 17"
-                  </th>
-                  <td class="px-6 py-4">Silver</td>
-                  <td class="px-6 py-4">Laptop</td>
-                  <td class="px-6 py-4">$2999</td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Microsoft Surface Pro
-                  </th>
-                  <td class="px-6 py-4">White</td>
-                  <td class="px-6 py-4">Laptop PC</td>
-                  <td class="px-6 py-4">$1999</td>
-                </tr>
-                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Magic Mouse 2
-                  </th>
-                  <td class="px-6 py-4">Black</td>
-                  <td class="px-6 py-4">Accessories</td>
-                  <td class="px-6 py-4">$99</td>
-                </tr>
+                {customers.map((item, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {item.name}
+                      </th>
+                      <td class="px-6 py-4">{item.location}</td>
+                      <td class="px-6 py-4">{item.email}</td>
+                      <td class="px-6 py-4">
+                        {item.subscriptions.map((sub, subindex) => {
+                          return (
+                            <span key={subindex}>
+                              {sub.name}({sub.language})&nbsp;
+                            </span>
+                          );
+                        })}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
