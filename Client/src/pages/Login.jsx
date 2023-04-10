@@ -63,25 +63,6 @@ const Login = ({ setEmail }) => {
                 />
               </div>
               <div class="flex items-center justify-between">
-                <div class="flex items-start">
-                  <div class="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required=""
-                    />
-                  </div>
-                  <div class="ml-3 text-sm">
-                    <label
-                      for="remember"
-                      class="text-gray-500 dark:text-gray-300"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                </div>
                 <a
                   href="#"
                   class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -92,13 +73,13 @@ const Login = ({ setEmail }) => {
               <button
                 onClick={async (e) => {
                   e.preventDefault();
-                  console.log(formData);
                   const res = await axios.post(
                     "http://localhost:5000/login",
                     formData
                   );
-                  console.log(res);
+                  alert(res.data);
                   setFormData({ email: "", password: "" });
+                  window.location.href = "/";
                 }}
                 type="submit"
                 class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

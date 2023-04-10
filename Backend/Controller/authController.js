@@ -25,11 +25,12 @@ const signup = async (req, res, next) => {
     }
     manager = new Manager({ name: mname, email: memail, password: hashedPass });
     manager.save();
-    res.send("Registered Successfully");
+    res.send("Registered successfully");
   } else {
     dname = req.body.name;
     demail = req.body.email;
     dlocation = req.body.location;
+    if (!dlocation) dlocation = "Rourkela";
     deliveryManObj = {
       name: dname,
       email: demail,
@@ -70,10 +71,7 @@ const login = async (req, res, next) => {
   if (isAuthenticated) {
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.send({
-      message: "Logged in successfully as a " + role,
-      role: role,
-    });
+    res.send("Logged In");
   } else {
     res.send("Email and password does not match");
   }

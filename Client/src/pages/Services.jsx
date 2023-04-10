@@ -20,8 +20,8 @@ const Services = () => {
   useEffect(() => {
     const readCookies = async () => {
       const res = await axios.get("http://localhost:5000/read-cookie");
-      if (!res.data) navigate("/log-in");
-      else setRole(res.data[1].role);
+      if (res.data.length === 0) navigate("/log-in");
+      else setRole(res.data[1]?.role);
     };
     readCookies();
   }, []);
@@ -40,7 +40,6 @@ const Services = () => {
   ];
   const operationForDeliveryMan = ["Get Delivery List", "Add Customer Request"];
   let activeOperations;
-  console.log(role);
   if (role === "manager") activeOperations = operationForManager;
   else activeOperations = operationForDeliveryMan;
   const [currPage, setCurrPage] = useState("Services");

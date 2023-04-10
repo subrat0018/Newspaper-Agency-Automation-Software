@@ -25,7 +25,10 @@ router.get("/read-cookie", async (req, res) => {
   const cks = req.cookies;
   const token = cks.jwt;
   if (!token) {
-    return {};
+    {
+      res.send([]);
+      return;
+    }
   } else {
     const payLoad = JSON.parse(
       Buffer.from(token.split(".")[1], "base64").toString()
@@ -37,14 +40,21 @@ router.get("/read-cookie", async (req, res) => {
       res.send([manager, { role: "manager" }]);
       return;
     }
-    const deliveryMan = await DeliveryMan.findOnde({ _id: id });
+    const deliveryMan = await DeliveryMan.findOne({ _id: id });
     if (deliveryMan) {
       res.send([deliveryMan, { role: "deliveryMan" }]);
       return;
     }
-    return {};
+    return [];
   }
 });
+
+router.get("/clear-cookie", (req, res) => {
+  res.clearCookie("jwt");
+  res.end();
+  res.send("Logged out Successfully");
+});
+
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 
