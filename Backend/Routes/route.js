@@ -15,13 +15,38 @@ router.get("/get-publication", async (req, res) => {
   });
   res.send(Array.from(result));
 });
-router.post("/signup", authController.signup);
-router.post("/login", authController.login);
 
 router.get("/get-customer", async (req, res) => {
   const customers = await Customer.find({});
   res.send(customers);
 });
+
+router.get("/read-cookie", async (req, res) => {
+  const cks = req.cookies;
+  const token = cks.jwt;
+  if (!token) {
+    return {};
+  } else {
+    const payLoad = JSON.parse(
+      Buffer.from(token.split(".")[1], "base64").toString()
+    );
+    const id = payLoad.id;
+    const manager = await Manager.findOne({ _id: id });
+    let obj = {};
+    if (manager) {
+      res.send([manager, { role: "manager" }]);
+      return;
+    }
+    const deliveryMan = await DeliveryMan.findOnde({ _id: id });
+    if (deliveryMan) {
+      res.send([deliveryMan, { role: "deliveryMan" }]);
+      return;
+    }
+    return {};
+  }
+});
+router.post("/signup", authController.signup);
+router.post("/login", authController.login);
 
 router.post("/get-lang", async (req, res) => {
   const pub = req.body.publication;

@@ -6,7 +6,6 @@ const process = require("process");
 
 const maxAge = 60 * 60 * 24;
 const createToken = (id) => {
-  console.log(process.env.SECRET_KEY);
   return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: maxAge });
 };
 

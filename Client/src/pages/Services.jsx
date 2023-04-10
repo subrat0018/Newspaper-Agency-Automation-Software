@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "../components/Box";
 import Navbar from "../components/Navbar";
 import AddCustomerModal from "../components/AddCustomerModal";
@@ -11,8 +11,20 @@ import WitholdSubscription from "../components/WitholdSubscription";
 import GenerateBill from "../components/GenerateBill";
 import HandleCustomerRequestModal from "../components/HandleCustomerRequestModal";
 import WhoRecieveWhatModal from "../components/WhoRecieveWhatModal";
-
-const Services = ({ email }) => {
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+const Services = () => {
+  axios.defaults.withCredentials = true;
+  const navigate = useNavigate();
+  const [role, setRole] = useState("");
+  useEffect(() => {
+    const readCookies = async () => {
+      const res = await axios.get("http://localhost:5000/read-cookie");
+      if (!res.data) navigate("/log-in");
+      else setRole(res.data[1].role);
+    };
+    readCookies();
+  }, []);
   const operationForManager = [
     "Add Customer",
     "Remove Customer",
@@ -27,8 +39,10 @@ const Services = ({ email }) => {
     "Handle Customer Request",
   ];
   const operationForDeliveryMan = ["Get Delivery List", "Add Customer Request"];
-  const role = document.cookie;
-  const activeOperations = operationForManager;
+  let activeOperations;
+  console.log(role);
+  if (role === "manager") activeOperations = operationForManager;
+  else activeOperations = operationForDeliveryMan;
   const [currPage, setCurrPage] = useState("Services");
   const [activeModal, setActiveModal] = useState("");
   const Modal = () => {
