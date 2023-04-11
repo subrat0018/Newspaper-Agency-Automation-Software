@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+
+//Modal to add delivery person
 const AddDeliveryManModal = ({ setModal }) => {
   const [formData, setFormData] = useState({
     name: "",

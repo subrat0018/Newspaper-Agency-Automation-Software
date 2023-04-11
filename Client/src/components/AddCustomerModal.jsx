@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
+//The Add Customer Modal
 const AddCustomerModal = ({ setModal }) => {
   const [formData, setFormData] = useState({
     name: "",

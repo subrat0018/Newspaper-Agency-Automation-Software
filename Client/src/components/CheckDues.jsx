@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+
+//Modal to check dues
 const CheckDuesModal = ({ setModal }) => {
   const [customers, setCustomers] = useState([]);
   useEffect(() => {

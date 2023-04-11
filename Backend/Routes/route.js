@@ -8,6 +8,8 @@ const {
   DeliveryMan,
 } = require("../Database/db");
 const authController = require("../Controller/authController");
+
+//Get all the current publications
 router.get("/get-publication", async (req, res) => {
   const publications = await Publication.find({});
   let result = new Set();
@@ -17,16 +19,19 @@ router.get("/get-publication", async (req, res) => {
   res.send(Array.from(result));
 });
 
+//Get all the customers that are suscribed to NewsFlow
 router.get("/get-customer", async (req, res) => {
   const customers = await Customer.find({});
   res.send(customers);
 });
 
+//Get all the delivery-man
 router.get("/get-delivery-man", async (req, res) => {
   const deliveryMan = await DeliveryMan.find({});
   res.send(deliveryMan);
 });
 
+//Read cookie to store the session i.e. to get the jwt token in order to perform authentication
 router.get("/read-cookie", async (req, res) => {
   const cks = req.cookies;
   const token = cks.jwt;
@@ -55,15 +60,20 @@ router.get("/read-cookie", async (req, res) => {
   }
 });
 
+//To clear the cookies present in the browser. This function is called when the user logged out from my app
+//If the user log in from another account then no need to clear the cookie as the jwt token value will get overwritten
 router.get("/clear-cookie", (req, res) => {
   res.clearCookie("jwt");
   res.end();
   res.send("Logged out Successfully");
 });
 
+//This call the signup function present in the Controller Directory
 router.post("/signup", authController.signup);
+//This call the login function present in the Controller Directory
 router.post("/login", authController.login);
 
+//This returns all the available languages for a given publication
 router.post("/get-lang", async (req, res) => {
   const pub = req.body.publication;
   const publications = await Publication.find({ name: pub });
@@ -74,6 +84,7 @@ router.post("/get-lang", async (req, res) => {
   res.send(result);
 });
 
+//Function to add a customer
 router.post("/add-customer", async (req, res) => {
   cname = req.body.name;
   cemail = req.body.email;
@@ -109,6 +120,7 @@ router.post("/add-customer", async (req, res) => {
   res.send("Customer added successfully");
 });
 
+//Function to remove a customer if present
 router.post("/remove-customer", async (req, res) => {
   cname = req.body.name;
   clocation = req.body.location;
@@ -139,6 +151,7 @@ router.post("/remove-delivery-man", async (req, res) => {
   res.send("DeliveryMan removed successfully");
 });
 
+//Function to add a publication. It first checks if the publication already exist and if not then it add the publication
 router.post("/add-publication", async (req, res) => {
   name = req.body.name;
   language = req.body.language;
@@ -159,12 +172,13 @@ router.post("/add-publication", async (req, res) => {
   res.send("Successfully saved the publication");
 });
 
+//function to remove a publication. It first check if there is such a publication or not. If such a publication exists
+//then it remove that publication
 router.post("/remove-publication", async (req, res) => {
   name = req.body.publication;
   language = req.body.language;
   name = name.toLowerCase();
   language = language.toLowerCase();
-  console.log(req.body);
   const result = await Publication.findOne({ name: name, language: language });
   if (!result) {
     res.send("No such publication exists!");
@@ -174,8 +188,8 @@ router.post("/remove-publication", async (req, res) => {
   res.send("Publication deleted successfully");
 });
 
-module.exports = router;
-
+//function to withold a particular subcription for a user. It first check if the user is subscribed to that publication.
+//If the user is subscribed then it moves the subscription to the withold list
 router.post("/withold-subscription", async (req, res) => {
   cnmae = req.body.customerName;
   cemail = req.body.customerEmail;
@@ -221,6 +235,10 @@ router.post("/withold-subscription", async (req, res) => {
   res.send("Added to withold successfully");
 });
 
+//function to handle requests of customers.
+//A customer can request for subscribe to a publication or unsuscribe from a publication
+//While adding the subscription it first check whether the user is already subscribed to the particular publication
+//Similarly while unsuscribing a publication it first checks whether the user is subscribed to the publication or not
 router.post("/handle-request", async (req, res) => {
   const cname = req.body.customerName;
   const cloc = req.body.location;
@@ -284,6 +302,8 @@ router.post("/handle-request", async (req, res) => {
   }
 });
 
+//Function to generate a bill
+//A user's due amount is shown in the bill along with all the publication and number of copies of a particular publication recieved
 router.post("/generate-bill", async (req, res) => {
   const { name, email, paid } = req.body;
   console.log(email);
@@ -316,6 +336,7 @@ router.get("/send-mail", async (req, res) => {
   res.send("Mails sent successfully");
 });
 
+//Function to generate the delivery list of all the customers for a delivery man
 router.post("/get-delivery", async (req, res) => {
   const location = req.body.loc;
   const allCust = await Customer.find({ location: location });
@@ -333,6 +354,10 @@ router.post("/get-delivery", async (req, res) => {
   res.send(reqArr);
 });
 
+//When the delivery man confirms a delivery then the amount associated with the publication is
+//added to the due amount of the user and 2.5% of the publication price is added to the salary of delivery man
+//note: I have simply added the price of the publication in the salary of the delivery man and calculate the 2.5% of the total
+//while distributing the salary
 router.post("/add-money", async (req, res) => {
   const { name, houseNo, publication, language } = req.body;
   console.log(req.body.name);
@@ -381,3 +406,5 @@ router.post("/add-money", async (req, res) => {
   });
   res.send("Delivery Successful");
 });
+
+module.exports = router;

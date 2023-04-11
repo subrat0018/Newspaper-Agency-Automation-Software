@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+//Publication schema
 const publicationSchema = new Schema({
   name: {
     type: String,
@@ -16,6 +17,7 @@ const publicationSchema = new Schema({
   },
 });
 
+//Customer Schema
 const customerSchema = new Schema({
   name: {
     type: String,
@@ -49,6 +51,7 @@ const customerSchema = new Schema({
   },
 });
 
+//Manager Schema
 const managerSchema = new Schema({
   name: {
     type: String,
@@ -81,6 +84,7 @@ const deliveryManSchema = new Schema({
   password: String,
 });
 
+//Creating a collection of each of the physical entity
 const Customer = new mongoose.model("Customer", customerSchema);
 const Manager = new mongoose.model("Manager", managerSchema);
 const Publication = new mongoose.model("Publication", publicationSchema);

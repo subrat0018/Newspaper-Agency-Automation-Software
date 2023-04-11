@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+
+//Modal to remove a delivery man
 const RemoveDeliveryMan = ({ setModal }) => {
   const [formData, setFormData] = useState({ name: "", location: "" });
   return (

@@ -64,6 +64,7 @@ const Services = () => {
     };
     fetch();
   }, []);
+  //All the modals are conditionally rendered
   const Modal = () => {
     switch (activeModal) {
       case "AddCustomer":

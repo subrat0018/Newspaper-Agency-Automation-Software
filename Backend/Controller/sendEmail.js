@@ -1,4 +1,6 @@
 const axios = require("axios");
+
+//Used Email Js api to send the customers notification regarding dues payment
 function sendEmail(arr) {
   for (let i = 0; i < arr.length; i++) {
     const templateParams = {

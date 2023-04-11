@@ -17,7 +17,7 @@ const Navbar = ({ currPage, setCurrPage }) => {
     readCookies();
   }, []);
   const navigate = useNavigate();
-  const menu = ["Home", "About", "Services", "Contact"];
+  const menu = ["Home", "About", "Services"];
   const NavText = ({ name }) => {
     return (
       <li

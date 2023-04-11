@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import axios from "axios";
-
+//formData is used to store the states of different input field which I am passing to the server
 const SignUp = ({ setEmail }) => {
   const [formData, setFormData] = useState({
     email: "",

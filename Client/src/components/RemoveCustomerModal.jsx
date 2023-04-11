@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
+//Modal to remove a customer
 const RemoveCustomerModal = ({ setModal }) => {
   const [formData, setFormData] = useState({ name: "", location: "" });
   return (

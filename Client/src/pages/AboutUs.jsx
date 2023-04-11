@@ -16,13 +16,17 @@ const AboutUs = () => {
               About Us
             </h1>
             <p class="font-normal text-base leading-6 text-gray-600 dark:text-white">
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum.In the first place we have granted to
-              God, and by this our present charter confirmed for us and our
-              heirs forever that the English Church shall be free, and shall
-              have her rights entire, and her liberties inviolate; and we will
-              that it be thus observed; which is apparent from
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Veritatis, sed fugiat aliquid provident eos excepturi est modi.
+              Beatae rerum sapiente similique, optio, modi repellat error nemo
+              maiores expedita nesciunt blanditiis! A consequuntur in error
+              placeat atque officia. Temporibus inventore ad nobis fugiat fuga
+              saepe nemo asperiores! Amet, odio maxime? Veritatis fuga, eveniet
+              incidunt natus eius cumque! Earum dolorum nemo quo. Expedita hic,
+              voluptates, omnis soluta ea nisi alias vero nam dolor aspernatur
+              esse recusandae asperiores iste dolores ipsam laborum? Non
+              eligendi nihil alias esse excepturi minima cumque eos, iste
+              aliquam.
             </p>
           </div>
           <div class="w-full lg:w-8/12">
@@ -40,13 +44,13 @@ const AboutUs = () => {
               Our Story
             </h1>
             <p class="font-normal text-base leading-6 text-gray-600 dark:text-white">
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum.In the first place we have granted to
-              God, and by this our present charter confirmed for us and our
-              heirs forever that the English Church shall be free, and shall
-              have her rights entire, and her liberties inviolate; and we will
-              that it be thus observed; which is apparent from
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Voluptatem at fugit laborum beatae, repellendus quaerat temporibus
+              quia molestias rem autem quis quasi tenetur! Rem architecto non a
+              quaerat reprehenderit perferendis. Porro commodi sit, ratione
+              saepe hic, magnam ipsam accusamus dolorum cum voluptas rem qui
+              vero distinctio corporis nam, laboriosam dolorem! Ad, voluptates
+              illum mollitia impedit dolorem soluta modi tempore dolorum?
             </p>
           </div>
           <div class="w-full lg:w-8/12 lg:pt-8">

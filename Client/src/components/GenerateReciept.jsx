@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import jsPDF from "jspdf";
 
+
+//Modal to generate reciept for a customer
 const GenerateReciept = ({ setModal }) => {
   const [formData, setFormData] = useState({
     name: "",

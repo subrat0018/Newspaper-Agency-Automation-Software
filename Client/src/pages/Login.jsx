@@ -4,6 +4,7 @@ import Logo from "../assets/Logo.png";
 import { useState } from "react";
 import axios from "axios";
 const Login = ({ setEmail }) => {
+  //formData is used to store the states of different input field which I am passing to the server 
   axios.defaults.withCredentials = true;
   const [formData, setFormData] = useState({ email: "", password: "" });
   return (

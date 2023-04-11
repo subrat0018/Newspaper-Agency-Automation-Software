@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
+//After performing the delivery the delivery man uses this modal
 const ConfirmDeliveryModal = ({ setModal, customers, setCustomers }) => {
   axios.defaults.withCredentials = true;
   const [publications, setPublications] = useState([]);

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+
+//Modal that shows delivery list of a particular delivery man
 const GetDeliveryListModal = ({ setModal, customers, setCustomers }) => {
   return (
     <div class="overflow-y-auto overflow-x-hidden fixed top-0 left-50 right-24 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">

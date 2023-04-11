@@ -5,10 +5,16 @@ const crypto = require("crypto");
 const process = require("process");
 
 const maxAge = 60 * 60 * 24;
+
+//Creating a jwt token so that I can store the session and to make authentication more easy
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: maxAge });
 };
 
+//Function for signing up
+//We hashed the password using bcrypt js and store the hashed password in the database
+//If manager creates a delivery man and do not mention the password then it
+//automatically generates a password of length 8 and send the password via email to the user
 const signup = async (req, res, next) => {
   password = "";
   if (req.body.password) password = req.body.password;
@@ -50,6 +56,8 @@ const signup = async (req, res, next) => {
   }
 };
 
+//Login function to authenticate the user
+//I used bcrypt's compare function to compare the hashed password to the given password
 const login = async (req, res, next) => {
   const userName = req.body.email;
   const password = req.body.password;

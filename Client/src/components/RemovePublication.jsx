@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
+//Modal to remove a publication
 const RemovePublication = ({ setModal }) => {
   const [formData, setFormData] = useState({
     name: "",

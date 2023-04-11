@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+//Modal to add publication
 const AddPublication = ({ setModal }) => {
   const [formData, setFormData] = useState({
     name: "",

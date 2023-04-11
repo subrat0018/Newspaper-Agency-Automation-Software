@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
+
+//Modal to show and generate bills of all the customers
 const GenerateBillModal = ({ setModal }) => {
   const [customers, setCustomers] = useState([]);
   useEffect(() => {

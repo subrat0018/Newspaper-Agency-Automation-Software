@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+
+//Modal to show salary of all the delivery man
 const GenerateSalaryModal = ({ setModal }) => {
   const [deliveryMan, setDeliveryMan] = useState([]);
   useEffect(() => {

@@ -7,6 +7,8 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import AboutUs from "./pages/AboutUs";
 import Services from "./pages/Services";
+
+//This is the main App component We wrapped the app in Routes so to move between the pages easily
 function App() {
   return (
     <Routes>

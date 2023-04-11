@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+
+//Who recieve what publications modal
 const AddDeliveryManModal = ({ setModal }) => {
   const [customers, setCustomers] = useState([]);
   useEffect(() => {

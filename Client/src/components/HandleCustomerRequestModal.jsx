@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+//Modal to handle request of a customer
 const HandleCustomerRequestModal = ({ setModal }) => {
   const [formData, setFormData] = useState({
     customerName: "",
