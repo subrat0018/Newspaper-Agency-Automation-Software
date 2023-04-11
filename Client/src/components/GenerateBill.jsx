@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-const CheckDuesModal = ({ setModal }) => {
+import jsPDF from "jspdf";
+const GenerateBillModal = ({ setModal }) => {
   const [customers, setCustomers] = useState([]);
   useEffect(() => {
     const fetch = async () => {
@@ -19,7 +20,7 @@ const CheckDuesModal = ({ setModal }) => {
         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
           <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Dues of Customers
+              Summary of Billing
             </h3>
             <button
               type="button"
@@ -59,10 +60,7 @@ const CheckDuesModal = ({ setModal }) => {
                     Amount Due
                   </th>
                   <th scope="col" class="px-6 py-3">
-                    Outstanding Time (In Days)
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Subscription Status
+                    Publication Name (Copies Deliver)
                   </th>
                 </tr>
               </thead>
@@ -82,18 +80,14 @@ const CheckDuesModal = ({ setModal }) => {
                       <td class="px-6 py-4">{item.email}</td>
                       <td class="px-6 py-4">{item.amountDue}</td>
                       <td class="px-6 py-4">
-                        {Math.ceil(
-                          Math.abs(new Date(item.lastPaid) - new Date()) /
-                            (1000 * 60 * 60 * 24)
-                        )}
-                      </td>
-                      <td class="px-6 py-4">
-                        {Math.ceil(
-                          Math.abs(new Date(item.lastPaid) - new Date()) /
-                            (1000 * 60 * 60 * 24)
-                        ) > 60
-                          ? "Discontinued"
-                          : "Continued"}
+                        {item.recievedThisMonth.map((sub, subindex) => {
+                          return (
+                            <span key={subindex}>
+                              {sub.publication.name}-{sub.publication.language}(
+                              {sub.noOfCopies})&nbsp;
+                            </span>
+                          );
+                        })}
                       </td>
                     </tr>
                   );
@@ -103,13 +97,48 @@ const CheckDuesModal = ({ setModal }) => {
           </div>
           <button
             onClick={async () => {
-              const res = await axios.get("http://localhost:5000/send-mail");
-              alert(res.data);
+              customers.map((item, index) => {
+                var doc = new jsPDF();
+                doc.text(
+                  "******************** Bill for Customer " +
+                    item.name +
+                    "****************",
+                  10,
+                  10
+                );
+                doc.text("Name : " + item.name, 10, 30);
+                doc.text("Amount Due : " + item.amountDue, 10, 40);
+                let y = 50;
+                item.recievedThisMonth.map((pub, index) => {
+                  let i_index = index + 1;
+                  doc.text("" + i_index + "", 10, y);
+                  y += 10;
+                  doc.text(
+                    "" +
+                      pub.publication.name +
+                      "-" +
+                      pub.publication.language +
+                      "----" +
+                      pub.publication.price +
+                      "rupees/piece" +
+                      "----" +
+                      pub.noOfCopies +
+                      " copies = " +
+                      `${pub.publication.price * pub.noOfCopies} rupees`,
+                    10,
+                    y
+                  );
+                  y += 10;
+                });
+                doc.text("Digital Signature of NewsFlow Authority", 10, y + 10);
+                doc.text("Subrat chandra Naha", 10, y + 20);
+                doc.save(item.name + "'s bill.pdf");
+              });
             }}
             type="submit"
             class="mt-4 text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
-            Send Reminder Mails
+            Print Bills
           </button>
         </div>
       </div>
@@ -117,4 +146,4 @@ const CheckDuesModal = ({ setModal }) => {
   );
 };
 
-export default CheckDuesModal;
+export default GenerateBillModal;

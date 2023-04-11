@@ -94,7 +94,8 @@ router.post("/add-customer", async (req, res) => {
     email: cemail,
     location: clocation,
     amountDue: 0,
-    subscriptions: publication,
+    subscriptions: [publication],
+    recievedThisMonth: [{ publication: publication, noOfCopies: 0 }],
     houseNo: chouseNo,
     lastPaid: new Date(),
   };
@@ -270,6 +271,10 @@ router.post("/handle-request", async (req, res) => {
       newSubscriptions.push(publication);
       await Customer.updateOne(customer, {
         subscriptions: [...newSubscriptions],
+        recievedThisMonth: [
+          ...customer.recievedThisMonth,
+          { publication: publication, noOfCopies: 0 },
+        ],
       });
     }
     res.send("Request processed successfully");
@@ -290,7 +295,8 @@ router.post("/generate-bill", async (req, res) => {
     amountDue: customer.amountDue - paid,
     lastPaid: new Date(),
   });
-  res.send(customer);
+  const updCust = await Customer.findOne({ email: email });
+  res.send(updCust);
 });
 router.get("/send-mail", async (req, res) => {
   const allCustomer = await Customer.find({});

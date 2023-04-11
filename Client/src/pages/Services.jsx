@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import GenerateSalaryModal from "../components/GenerateSalary";
 import CheckDuesModal from "../components/CheckDues";
+import GenerateBillModal from "../components/GenerateBill";
 const Services = () => {
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
@@ -74,6 +75,8 @@ const Services = () => {
         return <GenerateSalaryModal setModal={setActiveModal} />;
       case "CheckDues":
         return <CheckDuesModal setModal={setActiveModal} />;
+      case "GenerateBills":
+        return <GenerateBillModal setModal={setActiveModal} />;
       default:
         break;
     }

@@ -116,14 +116,21 @@ const GenerateReciept = ({ setModal }) => {
                   setModal("");
                   alert("Bill generated Successfully");
                   var doc = new jsPDF();
-
-                  doc.text("Name : " + res.data.name, 10, 10);
-                  doc.text("Amount Paid : " + formData.paid, 10, 30);
+                  var date = new Date(res.data.lastPaid.toString());
+                  doc.text(
+                    "******************** Reciept for Customer " +
+                      res.data.name +
+                      "****************",
+                    10,
+                    10
+                  );
+                  doc.text("Name : " + res.data.name, 10, 30);
+                  doc.text("Amount Paid : " + formData.paid, 10, 40);
                   doc.text("Amount Due : " + res.data.amountDue, 10, 50);
-                  doc.text("Date : " + res.data.lastPaid, 10, 70);
+                  doc.text("Date : " + date, 10, 70);
                   doc.text("Digital Signature of NewsFlow Authority", 10, 90);
                   doc.text("Subrat chandra Naha", 10, 100);
-                  doc.save(res.data.name + "'s bill.pdf");
+                  doc.save(res.data.name + "'s reciept.pdf");
                 }
               }}
               type="submit"
