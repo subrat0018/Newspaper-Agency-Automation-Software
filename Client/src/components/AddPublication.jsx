@@ -109,7 +109,7 @@ const AddPublication = ({ setModal }) => {
                   "http://localhost:5000/add-publication",
                   formData
                 );
-                console.log(res);
+                alert(res.data);
                 setFormData({ name: "", language: "english", price: "" });
                 setModal("");
               }}

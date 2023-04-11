@@ -112,7 +112,7 @@ const RemovePublication = ({ setModal }) => {
                     "http://localhost:5000/remove-publication",
                     formData
                   );
-                  console.log(res);
+                  alert(res.data);
                   setFormData({ name: "", language: "english" });
                   setModal("");
                 }}

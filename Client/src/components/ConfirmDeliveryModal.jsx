@@ -1,30 +1,29 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-const WitholdSubscription = ({ setModal }) => {
+const ConfirmDeliveryModal = ({ setModal, customers, setCustomers }) => {
+  axios.defaults.withCredentials = true;
   const [publications, setPublications] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [formData, setFormData] = useState({
-    customerName: "",
-    customerEmail: "",
-    publicationName: "",
-    publicationLanguage: "",
-    time: 0,
+    name: "",
+    houseNo: "",
+    publication: "",
+    language: "",
   });
   useEffect(() => {
-    fetch = async () => {
-      const res = await axios.get("http://localhost:5000/get-publication");
-      setPublications([...res.data]);
-    };
-    fetch();
-  }, []);
+    let arr = [];
+    customers.forEach((cust) => {
+      arr.push(cust.publication);
+    });
+    setPublications(arr);
+  }, [customers]);
   return (
     <div class="overflow-y-auto overflow-x-hidden fixed top-0 left-50 right-24 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
       <div class="relative p-4 w-full top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 max-w-2xl h-full md:h-auto">
         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
           <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Withold Subscription
+              ConfirmDeliver
             </h3>
             <button
               type="button"
@@ -53,39 +52,45 @@ const WitholdSubscription = ({ setModal }) => {
             <div class="grid gap-4 mb-4 sm:grid-cols-2">
               <div>
                 <label
-                  for="name"
+                  for="language"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Customer's Name
+                  Name
                 </label>
-                <input
+                <select
                   onChange={(e) => {
-                    setFormData({ ...formData, customerName: e.target.value });
+                    setFormData({ ...formData, name: e.target.value });
                   }}
-                  type="text"
-                  name="name"
-                  id="name"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Subrat"
-                  required
-                />
+                  id="language"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                >
+                  <option selected="">Select Customer</option>
+                  {customers.map((item, index) => {
+                    return (
+                      <option value={item.name} key={index}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
+
               <div>
                 <label
-                  for="email"
+                  for="house"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Customer's Email
+                  House No
                 </label>
                 <input
                   onChange={(e) => {
-                    setFormData({ ...formData, customerEmail: e.target.value });
+                    setFormData({ ...formData, houseNo: e.target.value });
                   }}
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="number"
+                  name="house"
+                  id="house"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="abc@gmail.com"
+                  placeholder="37"
                   required
                 />
               </div>
@@ -99,10 +104,7 @@ const WitholdSubscription = ({ setModal }) => {
                 <select
                   onChange={async (e) => {
                     if (!e.target.value) return;
-                    setFormData({
-                      ...formData,
-                      publicationName: e.target.value,
-                    });
+                    setFormData({ ...formData, publication: e.target.value });
                     const langs = await axios.post(
                       "http://localhost:5000/get-lang",
                       {
@@ -133,10 +135,7 @@ const WitholdSubscription = ({ setModal }) => {
                 </label>
                 <select
                   onChange={(e) => {
-                    setFormData({
-                      ...formData,
-                      publicationLanguage: e.target.value,
-                    });
+                    setFormData({ ...formData, language: e.target.value });
                   }}
                   id="language"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -151,61 +150,52 @@ const WitholdSubscription = ({ setModal }) => {
                   })}
                 </select>
               </div>
-              <div>
-                <label
-                  for="time"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Amount of Time(in Days)
-                </label>
-                <input
-                  onChange={(e) => {
-                    setFormData({ ...formData, time: e.target.value });
-                  }}
-                  type="number"
-                  name="time"
-                  id="time"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="2 Days"
-                  required
-                />
-              </div>
-              <div class="sm:col-span-2">
-                <label
-                  for="description"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Reason for Withold
-                </label>
-                <textarea
-                  id="description"
-                  rows="4"
-                  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Reason for Withold"
-                ></textarea>
-              </div>
             </div>
             <button
               onClick={async (e) => {
                 e.preventDefault();
+                formData.houseNo = Number(formData.houseNo);
+                let newCustomer = [];
+                for (let i = 0; i < customers.length; i++) {
+                  if (
+                    customers[i].name === formData.name &&
+                    customers[i].houseNo === formData.houseNo &&
+                    customers[i].publication === formData.publication &&
+                    customers[i].language === formData.language
+                  ) {
+                  } else {
+                    newCustomer.push(customers[i]);
+                  }
+                }
+                console.log(newCustomer);
+                if (newCustomer.length === customers.length) {
+                  alert("Delivery doesn't exist");
+                  return;
+                }
                 const res = await axios.post(
-                  "http://localhost:5000/withold-subscription",
+                  "http://localhost:5000/add-money",
                   formData
                 );
                 alert(res.data);
+                setCustomers(newCustomer);
                 setModal("");
-                setFormData({
-                  customerName: "",
-                  customerEmail: "",
-                  publicationName: "",
-                  publicationLanguage: "",
-                  time: 0,
-                });
               }}
               type="submit"
               class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
-              Confirm Withold
+              <svg
+                class="mr-1 -ml-1 w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Confirm Delivery
             </button>
           </form>
         </div>
@@ -214,4 +204,4 @@ const WitholdSubscription = ({ setModal }) => {
   );
 };
 
-export default WitholdSubscription;
+export default ConfirmDeliveryModal;

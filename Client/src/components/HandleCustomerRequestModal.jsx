@@ -179,7 +179,7 @@ const HandleCustomerRequestModal = ({ setModal }) => {
                   "http://localhost:5000/handle-request",
                   formData
                 );
-                console.log(res);
+                alert(res.data);
                 setModal("");
                 setFormData({
                   customerName: "",

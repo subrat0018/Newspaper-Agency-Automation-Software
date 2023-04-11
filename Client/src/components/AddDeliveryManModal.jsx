@@ -105,7 +105,7 @@ const AddDeliveryManModal = ({ setModal }) => {
                   "http://localhost:5000/signup",
                   formData
                 );
-                console.log(res);
+                alert(res.data);
                 setModal("");
               }}
               type="submit"

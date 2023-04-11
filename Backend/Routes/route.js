@@ -160,10 +160,11 @@ router.post("/add-publication", async (req, res) => {
 });
 
 router.post("/remove-publication", async (req, res) => {
-  name = req.body.name;
+  name = req.body.publication;
   language = req.body.language;
   name = name.toLowerCase();
   language = language.toLowerCase();
+  console.log(req.body);
   const result = await Publication.findOne({ name: name, language: language });
   if (!result) {
     res.send("No such publication exists!");
@@ -313,4 +314,70 @@ router.get("/send-mail", async (req, res) => {
   });
   sendEmail.sendEmail(reqCustomer);
   res.send("Mails sent successfully");
+});
+
+router.post("/get-delivery", async (req, res) => {
+  const location = req.body.loc;
+  const allCust = await Customer.find({ location: location });
+  const reqArr = [];
+  allCust.forEach((cust) => {
+    cust.subscriptions.forEach((sub) => {
+      reqArr.push({
+        name: cust.name,
+        houseNo: cust.houseNo,
+        publication: sub.name,
+        language: sub.language,
+      });
+    });
+  });
+  res.send(reqArr);
+});
+
+router.post("/add-money", async (req, res) => {
+  const { name, houseNo, publication, language } = req.body;
+  console.log(req.body.name);
+  const pub = await Publication.findOne({
+    name: publication,
+    language: language,
+  });
+  const customer = await Customer.findOne({ name: name, houseNo: houseNo });
+  let newRecieve = [];
+  let newSubscriptions = [...customer.subscriptions];
+  customer.recievedThisMonth.forEach((publ) => {
+    if (
+      pub.name === publ.publication.name &&
+      pub.language === publ.publication.language
+    ) {
+      newRecieve.push({ publication: pub, noOfCopies: publ.noOfCopies + 1 });
+    } else {
+      newRecieve.push(publ);
+    }
+  });
+  const today = new Date();
+  customer.witholdSubscriptions.forEach((publ) => {
+    if (today >= publ.endDate) {
+      newSubscriptions.push(publ.publication);
+    }
+  });
+  await Customer.updateOne(
+    { name: name, houseNo: houseNo },
+    {
+      amountDue: customer.amountDue + pub.price,
+      recievedThisMonth: [...newRecieve],
+      subscription: [...newSubscriptions],
+    }
+  );
+  const cks = req.cookies;
+  const token = cks.jwt;
+  const payLoad = JSON.parse(
+    Buffer.from(token.split(".")[1], "base64").toString()
+  );
+  const id = payLoad.id;
+  const deliveryMan = await DeliveryMan.findOne({ _id: id });
+  console.log(deliveryMan);
+  console.log(pub);
+  DeliveryMan.updateOne(deliveryMan, {
+    earningThisMonth: deliveryMan.earningThisMonth + pub.price,
+  });
+  res.send("Delivery Successful");
 });

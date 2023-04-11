@@ -83,7 +83,7 @@ const RemoveCustomerModal = ({ setModal }) => {
                     "http://localhost:5000/remove-customer",
                     formData
                   );
-                  console.log(res);
+                  alert(res.data);
                   setFormData({ name: "", location: "" });
                   setModal("");
                 }}

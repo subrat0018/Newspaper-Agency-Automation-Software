@@ -16,6 +16,8 @@ import axios from "axios";
 import GenerateSalaryModal from "../components/GenerateSalary";
 import CheckDuesModal from "../components/CheckDues";
 import GenerateBillModal from "../components/GenerateBill";
+import GetDeliveryListModal from "../components/GetDeliveryListModal";
+import ConfirmDeliveryModal from "../components/ConfirmDeliveryModal";
 const Services = () => {
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
@@ -43,12 +45,25 @@ const Services = () => {
     "Check Dues",
     "Generate Bills",
   ];
-  const operationForDeliveryMan = ["Get Delivery List", "Add Customer Request"];
+  const operationForDeliveryMan = ["Get Delivery List", "Confirm Delivery"];
   let activeOperations;
   if (role === "manager") activeOperations = operationForManager;
   else activeOperations = operationForDeliveryMan;
   const [currPage, setCurrPage] = useState("Services");
   const [activeModal, setActiveModal] = useState("");
+  const [customers, setCustomers] = useState([]);
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    const fetch = async () => {
+      const user = await axios.get("http://localhost:5000/read-cookie");
+      const allCustomers = await axios.post(
+        "http://localhost:5000/get-delivery",
+        { loc: user.data[0].location }
+      );
+      setCustomers(allCustomers.data);
+    };
+    fetch();
+  }, []);
   const Modal = () => {
     switch (activeModal) {
       case "AddCustomer":
@@ -77,6 +92,22 @@ const Services = () => {
         return <CheckDuesModal setModal={setActiveModal} />;
       case "GenerateBills":
         return <GenerateBillModal setModal={setActiveModal} />;
+      case "GetDeliveryList":
+        return (
+          <GetDeliveryListModal
+            setModal={setActiveModal}
+            customers={customers}
+            setCustomers={setCustomers}
+          />
+        );
+      case "ConfirmDelivery":
+        return (
+          <ConfirmDeliveryModal
+            setModal={setActiveModal}
+            customers={customers}
+            setCustomers={setCustomers}
+          />
+        );
       default:
         break;
     }

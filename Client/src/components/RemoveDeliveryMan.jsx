@@ -83,7 +83,7 @@ const RemoveDeliveryMan = ({ setModal }) => {
                     "http://localhost:5000/remove-delivery-man",
                     formData
                   );
-                  console.log(res);
+                  alert(res.data);
                   setFormData({ name: "", location: "" });
                   setModal("");
                 }}

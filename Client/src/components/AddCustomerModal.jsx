@@ -193,7 +193,7 @@ const AddCustomerModal = ({ setModal }) => {
                   "http://localhost:5000/add-customer",
                   formData
                 );
-                console.log(res);
+                alert(res.data);
                 setModal("");
               }}
               type="submit"
